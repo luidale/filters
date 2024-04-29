@@ -6,12 +6,14 @@ import com.luidale.filters.model.FilterRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.time.Instant;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import lombok.extern.slf4j.Slf4j;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Stream;
 
+@Slf4j
 @Component
 class Initializer implements CommandLineRunner {
 
@@ -22,35 +24,38 @@ class Initializer implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... strings) {
+    public void run(String... strings) throws ParseException {
         Stream.of("Filter1", "Filter2", "Filter3").forEach(name ->
                 repository.save(new Filter(name))
         );
 
         Filter filter1 = repository.findByName("Filter1");
-        Criteria c1 = Criteria.builder().type("Amount")
-                .filterMode("More")
+        Criteria c1 = Criteria.builder().type("AMOUNT")
+                .filterMode("MORE")
                 .number(4)
                 .build();
-        filter1.setCriterias(Collections.singleton(c1));
+        List<Criteria> criterias1 = new ArrayList<>();
+        criterias1.add(c1);
+        filter1.setCriterias(criterias1);
         repository.save(filter1);
 
         Filter filter2 = repository.findByName("Filter2");
-        Criteria c2 = Criteria.builder().type("Title")
-                .filterMode("Starts with")
+        Criteria c2 = Criteria.builder().type("TITLE")
+                .filterMode("STARTS_WITH")
                 .text("Meow")
                 .build();
-        Criteria c3 = Criteria.builder().type("Date")
-                .filterMode("From")
-                .date(Instant.parse("2022-09-13T17:00:00.000Z"))
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Criteria c3 = Criteria.builder().type("DATE")
+                .filterMode("FROM")
+                .date(formatter.parse("2022-09-13"))
                 .build();
-        Set<Criteria> criterias2 = new HashSet<>();
+        List<Criteria> criterias2 = new ArrayList<>();
         criterias2.add(c2);
         criterias2.add(c3);
         filter2.setCriterias(criterias2);
 
         repository.save(filter2);
 
-        repository.findAll().forEach(System.out::println);
+        repository.findAll().forEach(filter -> log.info(filter.toString()));
     }
 }

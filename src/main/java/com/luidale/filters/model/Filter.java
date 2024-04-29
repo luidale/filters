@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-import java.util.Set;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -21,5 +21,5 @@ public class Filter {
     private String name;
 
     @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
-    private Set<Criteria> criterias;
+    private List<Criteria> criterias;
 }

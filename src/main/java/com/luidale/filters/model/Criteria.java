@@ -8,7 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.Instant;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -24,5 +24,5 @@ public class Criteria {
     private String filterMode;
     private String text;
     private Number number;
-    private Instant date;
+    private Date date;
 }
