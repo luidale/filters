@@ -27,7 +27,6 @@ public class FilterController {
 
     @GetMapping("/filters")
     public Collection<Filter> filters() {
-        log.info("filters");
         return filterRepository.findAll();
     }
 

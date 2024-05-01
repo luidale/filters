@@ -8,14 +8,15 @@ import Select from "./Select";
 
 const FilterEditForm = ({ title, saveAction, cancelAction, modalMode, filter, setFilter }) => {
 
+    const newCriteria = {
+        type: Object.keys(CriteriaType)[0],
+        filterMode: Object.keys(NumberMode)[0],
+        text: '',
+        date: '',
+        number: ''
+    };
+
     const handleAddRow = () => {
-        const newCriteria = {
-            type: Object.keys(CriteriaType)[0],
-            filterMode: Object.keys(NumberMode)[0],
-            text: '',
-            date: '',
-            number: ''
-        };
         const updatedCriterias = [...filter.criterias];
         updatedCriterias.push(newCriteria);
         setFilter({ ...filter, criterias: updatedCriterias });
@@ -56,12 +57,15 @@ const FilterEditForm = ({ title, saveAction, cancelAction, modalMode, filter, se
 
     const handleDeleteRow = (indexToDelete) => {
         const updatedCriterias = filter.criterias.filter((_, index) => index !== indexToDelete);
+        if (updatedCriterias.length === 0) {
+            updatedCriterias.push(newCriteria);
+        }
         setFilter({ ...filter, criterias: updatedCriterias });
     };
 
-    if (filter.criterias.length === 0) {
+    /*if (filter.criterias.length === 0) {
         handleAddRow();
-    }
+    }*/
 
     const criteriaList = filter.criterias.map((criteria, index) => (
         <Row key={index}>

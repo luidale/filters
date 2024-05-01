@@ -2,11 +2,18 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import CustomModal from "./CustomModal"
 import FilterEditForm from "./FilterEditForm"
+import {CriteriaType, NumberMode} from "../constants/classifiers"
 
 const FilterEdit = ({ useModal, id, editOrAddFilter, stopEditOrAddFilter }) => {
     const initialFormState = {
         name: '',
-        criterias: []
+        criterias: [
+            {type: Object.keys(CriteriaType)[0],
+            filterMode: Object.keys(NumberMode)[0],
+            text: '',
+            date: '',
+            number: ''}
+        ]
     };
     const [filter, setFilter] = useState(initialFormState);
 
@@ -25,7 +32,6 @@ const FilterEdit = ({ useModal, id, editOrAddFilter, stopEditOrAddFilter }) => {
                 });
         }
     }, [id]);
-
 
     const title = id ? 'Edit filter' : 'Add filter';
 
