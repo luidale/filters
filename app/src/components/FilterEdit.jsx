@@ -30,7 +30,8 @@ const FilterEdit = ({ useModal, id, editOrAddFilter, stopEditOrAddFilter }) => {
     const title = id ? 'Edit filter' : 'Add filter';
 
     const handleSubmit = async (event) => {
-        //event.preventDefault();
+        if (!useModal)
+            event.preventDefault();
 
         try {
             const response = await fetch(`/api/filter${filter.id ? `/${filter.id}` : ''}`, {
